@@ -3,7 +3,7 @@ type Coordinates = {
   lng: number;
 };
 
-type Address = {
+export type Address = {
   address: string;
   city: string;
   coordinates: Coordinates;

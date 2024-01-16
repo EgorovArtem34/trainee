@@ -1,6 +1,4 @@
-import { PickedUserData } from "./../types/index";
-
-export const tableHeaders: (keyof PickedUserData)[] = [
+export const tableHeaders: string[] = [
   "firstName",
   "lastName",
   "maidenName",
@@ -8,3 +6,12 @@ export const tableHeaders: (keyof PickedUserData)[] = [
   "phone",
   "address",
 ];
+
+export const columnsHeaderNames: Record<string, string> = {
+  firstName: "First name",
+  lastName: "Last name",
+  maidenName: "Maiden name",
+  gender: "Gender",
+  phone: "Phone",
+  address: "Address",
+};
