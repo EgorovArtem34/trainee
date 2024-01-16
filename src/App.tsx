@@ -1,10 +1,8 @@
-import './App.css'
+import '@/styles/index.scss';
+import { MainPage } from './pages/MainPage/MainPage';
 
-function App() {
-
+export const App = () => {
   return (
-    <p>start</p>
+    <MainPage />
   )
-}
-
-export default App
+};
