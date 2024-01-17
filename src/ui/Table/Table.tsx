@@ -1,9 +1,11 @@
 import {
   useReactTable,
   getCoreRowModel,
+  getSortedRowModel,
   flexRender,
   ColumnDef,
 } from "@tanstack/react-table";
+import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { columnSizes } from "@/utils/constant";
 import styles from "./Table.module.scss";
 import { ColumnSizes } from "@/types";
@@ -20,6 +22,7 @@ export const Table = <T extends object>(props: TableProps<T>) => {
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     defaultColumn,
     columnResizeMode: "onChange",
   });
@@ -42,7 +45,21 @@ export const Table = <T extends object>(props: TableProps<T>) => {
                   width: header.getSize(),
                 }}
               >
-                {header.column.columnDef.header as string}
+                <div
+                  {...{
+                    className: header.column.getCanSort() ? styles.sortBox : "",
+                    onClick: header.column.getToggleSortingHandler(),
+                  }}
+                >
+                  {flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )}
+                  {{
+                    asc: <FaArrowUp className={styles.sortArrow} />,
+                    desc: <FaArrowDown className={styles.sortArrow} />,
+                  }[header.column.getIsSorted() as string] ?? null}
+                </div>
                 <div
                   className={`${styles.resizer} ${
                     header.column.getIsResizing() ? styles["isResizing"] : ""

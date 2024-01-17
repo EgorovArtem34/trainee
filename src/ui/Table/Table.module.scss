@@ -44,6 +44,17 @@
   opacity: 1;
 }
 
+.sortBox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortArrow {
+  margin-left: 3px;
+}
+
 @media (hover: hover) {
   .resizer {
     opacity: 0;

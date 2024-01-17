@@ -1,6 +1,7 @@
+import { User } from "@/store/types";
 import { ColumnSizes } from "@/types";
 
-export const tableHeaders: string[] = [
+export const tableHeaders: (keyof User)[] = [
   "firstName",
   "lastName",
   "maidenName",

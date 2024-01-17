@@ -80,3 +80,7 @@ export interface UsersResponse {
   skip: number;
   limit: number;
 }
+
+// export type SortingFn<TData extends AnyData> = {
+//   (rowA: Row<TData>, rowB: Row<TData>, columnId: string): number
+// }
