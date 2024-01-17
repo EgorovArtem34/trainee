@@ -65,14 +65,12 @@ export interface UsersState {
   users: User[];
   errors: {
     fetchUsersErr: null | string;
+    searchUsersErr: null | string;
   };
   isLoadings: {
-    fetchUsersLoading: boolean;
+    isFetchUsersLoading: boolean;
+    isSearchUsersLoading: boolean;
   };
-  searchQuery: string;
-}
-
-export interface FetchUsersParams {
   searchQuery: string;
 }
 

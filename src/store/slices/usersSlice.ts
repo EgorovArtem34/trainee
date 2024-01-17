@@ -1,20 +1,33 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { FetchUsersParams, UsersResponse, UsersState } from "../types";
+import { UsersResponse, UsersState } from "../types";
 import { apiEndpoints, createUrl } from "@/utils/api";
+
+// fetch('https://dummyjson.com/users/search?q=John')
 
 export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
-  async (params?: FetchUsersParams) => {
-    const createdUrl = createUrl(apiEndpoints.users, params?.searchQuery);
+  async (_, { rejectWithValue }) => {
+    const createdUrl = createUrl(apiEndpoints.users);
 
     const response = await fetch(createdUrl);
     if (!response.ok) {
-      console.log(`error, status ${response.status}`);
-      // const message = `An error has occured: ${response.status}`;
-      // throw new Error(message);
+      return rejectWithValue(`Fetch error, status ${response.status}`);
     }
     const users = await response.json();
     return users;
+  }
+);
+
+export const searchUsers = createAsyncThunk(
+  "users/searchUsers",
+  async (searchQuery: string, { rejectWithValue }) => {
+    const createdUrl = createUrl(apiEndpoints.users, searchQuery);
+    const response = await fetch(createdUrl);
+    if (!response.ok) {
+      return rejectWithValue(`Search error, status ${response.status}`);
+    }
+    const searchedUsers = await response.json();
+    return searchedUsers;
   }
 );
 
@@ -22,9 +35,11 @@ const initialState: UsersState = {
   users: [],
   errors: {
     fetchUsersErr: null,
+    searchUsersErr: null,
   },
   isLoadings: {
-    fetchUsersLoading: false,
+    isFetchUsersLoading: false,
+    isSearchUsersLoading: false,
   },
   searchQuery: "",
 };
@@ -41,12 +56,11 @@ const usersSlice = createSlice({
     builder
       .addCase(fetchUsers.pending, (state) => {
         state.errors.fetchUsersErr = null;
-        state.isLoadings.fetchUsersLoading = true;
+        state.isLoadings.isFetchUsersLoading = true;
       })
       .addCase(fetchUsers.rejected, (state, action) => {
-        const payload = action.payload as Error;
-        state.errors.fetchUsersErr = payload.message;
-        state.isLoadings.fetchUsersLoading = false;
+        state.errors.searchUsersErr = action.payload as string;
+        state.isLoadings.isFetchUsersLoading = false;
       })
       .addCase(
         fetchUsers.fulfilled,
@@ -54,7 +68,25 @@ const usersSlice = createSlice({
           const { users } = payload;
           state.users = users;
           state.errors.fetchUsersErr = null;
-          state.isLoadings.fetchUsersLoading = false;
+          state.isLoadings.isFetchUsersLoading = false;
+        }
+      )
+
+      .addCase(searchUsers.pending, (state) => {
+        state.errors.searchUsersErr = null;
+        state.isLoadings.isSearchUsersLoading = true;
+      })
+      .addCase(searchUsers.rejected, (state, action) => {
+        state.errors.searchUsersErr = action.payload as string;
+        state.isLoadings.isSearchUsersLoading = false;
+      })
+      .addCase(
+        searchUsers.fulfilled,
+        (state, { payload }: PayloadAction<UsersResponse>) => {
+          const { users } = payload;
+          state.users = users;
+          state.errors.searchUsersErr = null;
+          state.isLoadings.isSearchUsersLoading = false;
         }
       );
   },

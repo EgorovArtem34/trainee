@@ -1,3 +1,5 @@
+import { ColumnSizes } from "@/types";
+
 export const tableHeaders: string[] = [
   "firstName",
   "lastName",
@@ -14,4 +16,10 @@ export const columnsHeaderNames: Record<string, string> = {
   gender: "Gender",
   phone: "Phone",
   address: "Address",
+};
+
+export const columnSizes: ColumnSizes = {
+  size: 200,
+  minSize: 50,
+  maxSize: 400,
 };
