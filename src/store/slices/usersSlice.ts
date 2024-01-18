@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UsersResponse, UsersState } from "../types";
+import { PayloadShowModal, UsersResponse, UsersState } from "../types";
 import { apiEndpoints, createUrl } from "@/utils/api";
-
-// fetch('https://dummyjson.com/users/search?q=John')
 
 export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
@@ -42,6 +40,10 @@ const initialState: UsersState = {
     isSearchUsersLoading: false,
   },
   searchQuery: "",
+  modals: {
+    isShowUserModal: false,
+    activeUserId: null,
+  },
 };
 
 const usersSlice = createSlice({
@@ -50,6 +52,15 @@ const usersSlice = createSlice({
   reducers: {
     setSearchQuery: (state, { payload }: PayloadAction<string>) => {
       state.searchQuery = payload;
+    },
+    setShowUserModal: (state, { payload }: PayloadAction<PayloadShowModal>) => {
+      const { id } = payload;
+      state.modals.activeUserId = id;
+      state.modals.isShowUserModal = true;
+    },
+    setCloseUserModal: (state) => {
+      state.modals.isShowUserModal = false;
+      state.modals.activeUserId = null;
     },
   },
   extraReducers: (builder) => {
@@ -92,5 +103,6 @@ const usersSlice = createSlice({
   },
 });
 
-export const { setSearchQuery } = usersSlice.actions;
+export const { setSearchQuery, setShowUserModal, setCloseUserModal } =
+  usersSlice.actions;
 export default usersSlice.reducer;

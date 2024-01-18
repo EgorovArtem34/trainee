@@ -72,6 +72,10 @@ export interface UsersState {
     isSearchUsersLoading: boolean;
   };
   searchQuery: string;
+  modals: {
+    isShowUserModal: boolean;
+    activeUserId: number | null;
+  };
 }
 
 export interface UsersResponse {
@@ -81,6 +85,6 @@ export interface UsersResponse {
   limit: number;
 }
 
-// export type SortingFn<TData extends AnyData> = {
-//   (rowA: Row<TData>, rowB: Row<TData>, columnId: string): number
-// }
+export interface PayloadShowModal {
+  id: number;
+}

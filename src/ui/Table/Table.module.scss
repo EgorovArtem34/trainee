@@ -17,12 +17,17 @@
   background-color: #f2f2f2;
 }
 
-.tr:nth-child(even) {
-  background-color: #f9f9f9;
+.tr {
+  &:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  &:hover {
+    background-color: #e5e5e5;
+  }
 }
 
-.tr:hover {
-  background-color: #e5e5e5;
+.trBtn {
+  cursor: pointer;
 }
 
 .resizer {

@@ -3,21 +3,22 @@ import {
   getCoreRowModel,
   getSortedRowModel,
   flexRender,
-  ColumnDef,
 } from "@tanstack/react-table";
+import cn from "classnames";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { columnSizes } from "@/utils/constant";
 import styles from "./Table.module.scss";
-import { ColumnSizes } from "@/types";
-
-interface TableProps<T extends object> {
-  data: T[];
-  columns: ColumnDef<T>[];
-  defaultColumn: ColumnSizes;
-}
+import { TableProps } from "@/types";
+import { User } from "@/store/types";
 
 export const Table = <T extends object>(props: TableProps<T>) => {
-  const { columns, data, defaultColumn = columnSizes } = props;
+  const {
+    columns,
+    data,
+    defaultColumn = columnSizes,
+    isTrBodyBtn = false,
+    handleClick = () => {},
+  } = props;
   const table = useReactTable({
     data,
     columns,
@@ -25,6 +26,10 @@ export const Table = <T extends object>(props: TableProps<T>) => {
     getSortedRowModel: getSortedRowModel(),
     defaultColumn,
     columnResizeMode: "onChange",
+  });
+
+  const trBodyClasses = cn(styles.tr, {
+    [styles["trBtn"]]: isTrBodyBtn,
   });
 
   return (
@@ -75,7 +80,11 @@ export const Table = <T extends object>(props: TableProps<T>) => {
       </thead>
       <tbody>
         {table.getRowModel().rows.map((row) => (
-          <tr key={row.id} className={styles.tr}>
+          <tr
+            key={row.id}
+            className={trBodyClasses}
+            onClick={() => handleClick((row.original as User).id)}
+          >
             {row.getVisibleCells().map((cell) => (
               <td
                 key={cell.id}

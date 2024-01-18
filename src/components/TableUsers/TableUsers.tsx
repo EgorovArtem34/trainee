@@ -1,12 +1,14 @@
-import { useAppSelector } from "@/store/hook";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { Address, User } from "@/store/types";
 import { Table } from "@/ui/Table/Table";
 import { columnSizes } from "@/utils/constant";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { useMemo } from "react";
 import styles from "./TableUsers.module.scss";
+import { setShowUserModal } from "@/store/slices/usersSlice";
 
 export const TableUsers = () => {
+  const dispatch = useAppDispatch();
   const columns = useMemo<ColumnDef<User>[]>(
     () => [
       {
@@ -73,12 +75,19 @@ export const TableUsers = () => {
     ],
     []
   );
-
   const { users } = useAppSelector((state) => state.usersSlice);
+
+  const showUserModal = (id: number) => dispatch(setShowUserModal({ id }));
 
   return (
     <div className={styles.tableContainer}>
-      <Table data={users} columns={columns} defaultColumn={columnSizes} />
+      <Table
+        data={users}
+        columns={columns}
+        defaultColumn={columnSizes}
+        handleClick={showUserModal}
+        isTrBodyBtn={true}
+      />
     </div>
   );
 };
