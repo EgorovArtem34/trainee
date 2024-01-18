@@ -33,7 +33,7 @@ export const SearchForm = () => {
             <AiOutlineSearch />
           </div>
         </div>
-        <Button type="submit" variant="search">
+        <Button type="submit" variant="search" aria-label="search users">
           Search
         </Button>
       </fieldset>

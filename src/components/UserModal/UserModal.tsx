@@ -87,7 +87,9 @@ export const UserModal = () => {
           </div>
         </div>
         <div className={styles.footer}>
-          <Button onClick={handleClick}>Close</Button>
+          <Button onClick={handleClick} aria-label="close modal">
+            Close
+          </Button>
         </div>
       </div>
     </div>
