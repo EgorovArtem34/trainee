@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { setCloseUserModal } from "@/store/slices/usersSlice";
 import styles from "./UserModal.module.scss";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
@@ -10,6 +11,13 @@ export const UserModal = () => {
     users,
     modals: { isShowUserModal, activeUserId },
   } = useAppSelector((state) => state.usersSlice);
+
+  useEffect(() => {
+    if (document) {
+      document.body.style.overflow = isShowUserModal ? "hidden" : "auto";
+    }
+  }, [isShowUserModal]);
+
   if (!isShowUserModal) {
     return null;
   }
