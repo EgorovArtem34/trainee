@@ -7,7 +7,6 @@ export const apiEndpoints: ApiEndpoints = {
 };
 
 export const createUrl = (endPoint: string, searchQuery?: string) => {
-  // console.log(`Передал ${searchQuery} и ${endPoint}`);
   const searchQueryParam = searchQuery
     ? `search?q=${searchQuery}`
     : searchQuery;

@@ -13,8 +13,13 @@ export const UserModal = () => {
   } = useAppSelector((state) => state.usersSlice);
 
   useEffect(() => {
+    // if (document) {
+    //   document.body.style.marginRight = isShowUserModal ? "16px" : "0";
+    //   document.body.style.overflow = isShowUserModal ? "hidden" : "auto";
+    // }
     if (document) {
-      document.body.style.overflow = isShowUserModal ? "hidden" : "auto";
+      const body = document.body;
+      body.classList.toggle("modalShow", isShowUserModal);
     }
   }, [isShowUserModal]);
 
